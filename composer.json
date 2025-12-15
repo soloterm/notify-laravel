@@ -1,0 +1,51 @@
+{
+    "name": "soloterm/notify-laravel",
+    "description": "Laravel integration for soloterm/notify - send desktop notifications from Artisan commands.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": ["laravel", "artisan", "notifications", "terminal", "osc"],
+    "authors": [
+        {
+            "name": "Aaron Francis",
+            "email": "aarondfrancis@gmail.com"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../notify"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "illuminate/console": "^10.0|^11.0|^12.0",
+        "illuminate/support": "^10.0|^11.0|^12.0",
+        "soloterm/notify": "^1.0|dev-main"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.0|^9.0|^10.0",
+        "phpunit/phpunit": "^10.5|^11"
+    },
+    "autoload": {
+        "psr-4": {
+            "SoloTerm\\Notify\\Laravel\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SoloTerm\\Notify\\Laravel\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "SoloTerm\\Notify\\Laravel\\NotifyServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true
+    }
+}
