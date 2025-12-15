@@ -24,7 +24,7 @@ class NotifyServiceProvider extends ServiceProvider
         }
 
         $this->mergeConfigFrom(
-            __DIR__ . '/../config/notify.php',
+            __DIR__.'/../config/notify.php',
             'notify'
         );
 
@@ -61,7 +61,7 @@ class NotifyServiceProvider extends ServiceProvider
         ]);
 
         $this->publishes([
-            __DIR__ . '/../config/notify.php' => config_path('notify.php'),
+            __DIR__.'/../config/notify.php' => config_path('notify.php'),
         ], 'notify-config');
 
         // Register event listeners

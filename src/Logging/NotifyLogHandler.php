@@ -98,7 +98,7 @@ class NotifyLogHandler extends AbstractProcessingHandler
 
         // Truncate long messages
         if (strlen($message) > $this->maxLength) {
-            $message = substr($message, 0, $this->maxLength - 3) . '...';
+            $message = substr($message, 0, $this->maxLength - 3).'...';
         }
 
         return $message;
