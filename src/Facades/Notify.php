@@ -20,6 +20,7 @@ use SoloTerm\Notify\Notify as BaseNotify;
  * @method static bool close(string $id)
  * @method static bool canNotify()
  * @method static bool canFallback()
+ * @method static bool supportsProgress()
  * @method static ?string getTerminal()
  * @method static ?string getProtocol()
  * @method static array capabilities()
@@ -28,6 +29,15 @@ use SoloTerm\Notify\Notify as BaseNotify;
  * @method static void disableFallback()
  * @method static void setDefaultUrgency(int $urgency)
  * @method static void reset()
+ * @method static bool progress(int $progress, int $state = 1)
+ * @method static bool progressClear()
+ * @method static bool progressError(int $progress = 100)
+ * @method static bool progressPaused(int $progress)
+ * @method static bool progressIndeterminate()
+ * @method static bool requestAttention(bool $fireworks = false)
+ * @method static bool fireworks()
+ * @method static bool stealFocus()
+ * @method static string hyperlink(string $url, ?string $text = null, ?string $id = null)
  *
  * @see \SoloTerm\Notify\Notify
  */

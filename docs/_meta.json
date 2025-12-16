@@ -1,0 +1,16 @@
+{
+  "title": "Notify for Laravel",
+  "description": "Laravel integration for desktop notifications via terminal OSC sequences.",
+  "pages": [
+    { "slug": "index", "title": "Introduction" },
+    { "slug": "installation", "title": "Installation" },
+    { "slug": "configuration", "title": "Configuration" },
+    { "slug": "facade", "title": "Facade" },
+    { "slug": "trait", "title": "SendsNotifications Trait" },
+    { "slug": "artisan-command", "title": "Artisan Command" },
+    { "slug": "scheduler", "title": "Scheduler" },
+    { "slug": "logging", "title": "Logging" },
+    { "slug": "events", "title": "Events" },
+    { "slug": "advanced", "title": "Advanced Features" }
+  ]
+}
