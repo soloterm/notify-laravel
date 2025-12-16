@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.0] - 2025-12-16
+
 ### Added
 - `php artisan notify` command for sending desktop notifications
   - `--title` option for notification titles
@@ -27,4 +29,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Publishable configuration file with customizable titles and behavior
 - Support for Laravel 10, 11, and 12
 
+
 [Unreleased]: https://github.com/soloterm/notify-laravel/commits/HEAD
+[0.1.0]: https://github.com/soloterm/notify-laravel/releases/tag/v0.1.0
