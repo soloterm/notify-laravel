@@ -193,6 +193,72 @@ Notify::reset();
 
 See [Advanced Features](advanced) for full progress bar documentation.
 
+## Queue Worker Notifications
+
+Get notified when queue workers start and stop:
+
+```php
+// In AppServiceProvider or a dedicated provider
+use Illuminate\Queue\Events\JobProcessing;
+use Illuminate\Queue\Events\JobProcessed;
+use Illuminate\Queue\Events\JobFailed;
+use Illuminate\Queue\Events\WorkerStopping;
+use Illuminate\Support\Facades\Event;
+use SoloTerm\Notify\Laravel\Facades\Notify;
+
+public function boot(): void
+{
+    // Notify once when queue starts processing
+    $started = false;
+    Event::listen(JobProcessing::class, function () use (&$started) {
+        if (!$started) {
+            Notify::info('Queue worker started', 'Queue');
+            $started = true;
+        }
+    });
+
+    // Notify when queue worker stops
+    Event::listen(WorkerStopping::class, function () {
+        Notify::warning('Queue worker stopping', 'Queue');
+    });
+
+    // Notify on job failures
+    Event::listen(JobFailed::class, function (JobFailed $event) {
+        Notify::error(
+            "Job failed: " . class_basename($event->job->resolveName()),
+            'Queue Error'
+        );
+    });
+}
+```
+
+### Job Progress with Notifications
+
+For batch processing, combine with progress bars:
+
+```php
+use Illuminate\Bus\Batch;
+use Illuminate\Support\Facades\Bus;
+
+Bus::batch($jobs)
+    ->before(function (Batch $batch) {
+        Notify::info("Starting batch: {$batch->name}", 'Queue');
+        Notify::progressIndeterminate();
+    })
+    ->progress(function (Batch $batch) {
+        Notify::progress($batch->progress());
+    })
+    ->then(function (Batch $batch) {
+        Notify::progressClear();
+        Notify::success("Batch complete: {$batch->name}", 'Queue');
+    })
+    ->catch(function (Batch $batch, \Throwable $e) {
+        Notify::progressError();
+        Notify::error("Batch failed: {$batch->name}", 'Queue');
+    })
+    ->dispatch();
+```
+
 ## Next Steps
 
 - [SendsNotifications Trait](trait) - Add notifications to your commands

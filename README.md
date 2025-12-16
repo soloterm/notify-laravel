@@ -8,6 +8,33 @@ Laravel integration for [soloterm/notify](https://github.com/soloterm/notify) - 
 
 This package was built to support [Solo](https://github.com/soloterm/solo), your all-in-one Laravel command to tame local development.
 
+<table>
+<tr>
+<td><strong>OSC Notifications (Ghostty)</strong></td>
+<td><strong>OSC Notifications (iTerm2)</strong></td>
+</tr>
+<tr>
+<td><img src="art/ghostty-osc.png" alt="Ghostty OSC notification" width="400"></td>
+<td><img src="art/iterm-osc.png" alt="iTerm2 OSC notification" width="400"></td>
+</tr>
+<tr>
+<td><strong>Progress Bars (Ghostty)</strong></td>
+<td><strong>Progress Bars (iTerm2)</strong></td>
+</tr>
+<tr>
+<td><img src="art/ghostty-progress.png" alt="Ghostty progress bar" width="400"></td>
+<td><img src="art/iterm-progress.png" alt="iTerm2 progress bar" width="400"></td>
+</tr>
+<tr>
+<td><strong>macOS Fallback</strong></td>
+<td><strong>Fireworks (iTerm2)</strong></td>
+</tr>
+<tr>
+<td><img src="art/mac-fallback.png" alt="macOS fallback notification" width="400"></td>
+<td><img src="art/fireworks.png" alt="iTerm2 fireworks" width="400"></td>
+</tr>
+</table>
+
 ## Installation
 
 ```bash
@@ -242,6 +269,35 @@ Progress bars are supported in:
 - **Ghostty** - Full support (1.2+)
 - **iTerm2** - Full support (3.6.6+)
 - **ConEmu/Mintty** - Full support
+
+## Queue Worker Notifications
+
+Get notified when queue workers start processing and when they stop:
+
+```php
+// In AppServiceProvider or a dedicated provider
+use Illuminate\Queue\Events\JobProcessing;
+use Illuminate\Queue\Events\WorkerStopping;
+use Illuminate\Support\Facades\Event;
+use SoloTerm\Notify\Laravel\Facades\Notify;
+
+public function boot(): void
+{
+    // Notify when queue starts processing (first job only)
+    $notified = false;
+    Event::listen(JobProcessing::class, function () use (&$notified) {
+        if (!$notified) {
+            Notify::info('Queue worker started processing', 'Queue');
+            $notified = true;
+        }
+    });
+
+    // Notify when queue worker stops
+    Event::listen(WorkerStopping::class, function () {
+        Notify::warning('Queue worker stopping', 'Queue');
+    });
+}
+```
 
 ## SendsNotifications Trait
 
