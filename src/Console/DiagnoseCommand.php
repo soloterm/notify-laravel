@@ -73,11 +73,11 @@ class DiagnoseCommand extends Command
 
         $this->components->twoColumnDetail(
             'tmux',
-            $inTmux ? '<fg=yellow>Yes</> (TMUX=' . substr(getenv('TMUX'), 0, 30) . '...)' : 'No'
+            $inTmux ? '<fg=yellow>Yes</> (TMUX='.substr(getenv('TMUX'), 0, 30).'...)' : 'No'
         );
         $this->components->twoColumnDetail(
             'GNU Screen',
-            $inScreen ? '<fg=yellow>Yes</> (STY=' . getenv('STY') . ')' : 'No'
+            $inScreen ? '<fg=yellow>Yes</> (STY='.getenv('STY').')' : 'No'
         );
 
         if ($inTmux) {
@@ -281,7 +281,7 @@ class DiagnoseCommand extends Command
         ];
 
         foreach ($tips as $i => $tip) {
-            $this->line('  ' . ($i + 1) . '. ' . $tip);
+            $this->line('  '.($i + 1).'. '.$tip);
         }
     }
 
