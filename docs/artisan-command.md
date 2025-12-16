@@ -239,6 +239,55 @@ The command returns exit code 1 in this case, so you can handle it:
 php artisan notify "Test" || echo "Notifications not available"
 ```
 
+## Diagnose Command
+
+Use `notify:diagnose` to test your terminal's notification capabilities:
+
+```bash
+php artisan notify:diagnose
+```
+
+This interactive command:
+
+1. **Detects your environment** - Terminal type, protocol, multiplexer status
+2. **Shows capabilities** - What features your terminal supports
+3. **Runs interactive tests** - Sends test notifications and progress bars
+4. **Provides troubleshooting** - Tips if notifications aren't working
+
+### Non-Interactive Mode
+
+Skip the interactive tests for CI/scripts:
+
+```bash
+php artisan notify:diagnose --skip-interactive
+```
+
+### Example Output
+
+```
+Notify Terminal Diagnostics
+
+Environment
+Terminal ................................... Ghostty (OSC 777 + progress)
+Protocol ................................... OSC 777 (title + message)
+PHP SAPI ................................... cli
+TERM ....................................... xterm-256color
+TERM_PROGRAM ............................... ghostty
+COLORTERM .................................. truecolor
+
+Multiplexer Detection
+tmux ....................................... No
+GNU Screen ................................. No
+
+Capabilities
+Desktop Notifications ...................... Supported
+Notification Titles ........................ Supported
+Urgency Levels ............................. Not Supported
+Notification IDs ........................... Not Supported
+Progress Bars .............................. Supported
+External Fallback .......................... Available
+```
+
 ## Next Steps
 
 - [Scheduler](scheduler) - Automatic notifications for scheduled tasks

@@ -47,6 +47,9 @@ php artisan notify "Hello" -p osc9
 
 # Check terminal support
 php artisan notify --info
+
+# Full diagnostics with interactive tests
+php artisan notify:diagnose
 ```
 
 ### Exit Code Mode
@@ -194,6 +197,52 @@ Log levels map to urgency:
 
 > **Note:** This log channel is designed for CLI usage (Artisan commands, queue workers, scheduled tasks). In web requests, there's no terminal attached, so notifications are silently skipped. For web request logging, use a different channel in your stack.
 
+## Progress Bars
+
+Display progress in the terminal tab/taskbar for long-running commands:
+
+```php
+use SoloTerm\Notify\Laravel\Facades\Notify;
+
+// Check if the terminal supports progress bars
+if (Notify::supportsProgress()) {
+    // Show progress (0-100)
+    Notify::progress(25);
+    Notify::progress(50);
+    Notify::progress(100);
+
+    // Clear when done
+    Notify::progressClear();
+}
+```
+
+### Progress States
+
+```php
+// Normal progress (blue/default)
+Notify::progress(75);
+
+// Error state (red)
+Notify::progressError(100);
+
+// Paused state (yellow)
+Notify::progressPaused(50);
+
+// Indeterminate/pulsing
+Notify::progressIndeterminate();
+
+// Hide/clear
+Notify::progressClear();
+```
+
+### Terminal Support
+
+Progress bars are supported in:
+- **Windows Terminal** - Full support
+- **Ghostty** - Full support (1.2+)
+- **iTerm2** - Full support (3.6.6+)
+- **ConEmu/Mintty** - Full support
+
 ## SendsNotifications Trait
 
 Add notification capabilities to any Artisan command:
@@ -307,6 +356,18 @@ Then reload: `tmux source-file ~/.tmux.conf`
 - PHP 8.1+
 - Laravel 10, 11, or 12
 - A supported terminal emulator (or system notification tools for fallback)
+
+## Related Projects
+
+Part of the SoloTerm ecosystem:
+
+- [Solo](https://github.com/soloterm/solo) - All-in-one Laravel command for local development
+- [Screen](https://github.com/soloterm/screen) - Pure PHP terminal renderer
+- [Dumps](https://github.com/soloterm/dumps) - Laravel command to intercept dumps
+- [Grapheme](https://github.com/soloterm/grapheme) - Unicode grapheme width calculator
+- [Notify](https://github.com/soloterm/notify) - PHP package for desktop notifications via OSC escape sequences
+- [TNotify](https://github.com/soloterm/tnotify) - Standalone, cross-platform CLI for desktop notifications
+- [VTail](https://github.com/soloterm/vtail) - Vendor-aware tail for Laravel logs
 
 ## License
 

@@ -7,9 +7,9 @@ description: Progress bars, attention requests, hyperlinks, and other advanced t
 
 Beyond basic notifications, the underlying `soloterm/notify` library provides advanced terminal features accessible through the Facade. These features have varying levels of terminal support.
 
-## Progress Indicators
+## Progress Bars
 
-Display progress in the terminal's title bar or tab. Useful for long-running commands.
+Display progress in the terminal's tab, title bar, or taskbar. This is separate from console progress bars - it shows progress in the terminal chrome itself, visible even when the terminal is minimized or in the background.
 
 ### Basic Progress
 
@@ -32,24 +32,23 @@ Different visual states for the progress bar:
 
 ```php
 // Normal progress (blue/default)
+Notify::progress(75);
 Notify::progress(75, Notify::PROGRESS_NORMAL);
 
-// Error state (red)
+// Error state (red) - indicates failure
 Notify::progressError(100);
-// or
 Notify::progress(100, Notify::PROGRESS_ERROR);
 
-// Paused state (yellow)
+// Paused state (yellow) - indicates waiting/paused
 Notify::progressPaused(50);
-// or
 Notify::progress(50, Notify::PROGRESS_PAUSED);
 
-// Indeterminate (spinning/pulsing)
+// Indeterminate (spinning/pulsing) - unknown duration
 Notify::progressIndeterminate();
-// or
 Notify::progress(0, Notify::PROGRESS_INDETERMINATE);
 
-// Hidden (clear)
+// Hidden (clear the progress bar)
+Notify::progressClear();
 Notify::progress(0, Notify::PROGRESS_HIDDEN);
 ```
 
@@ -58,48 +57,108 @@ Notify::progress(0, Notify::PROGRESS_HIDDEN);
 | Constant | Value | Description |
 |----------|-------|-------------|
 | `PROGRESS_HIDDEN` | 0 | Hide progress indicator |
-| `PROGRESS_NORMAL` | 1 | Normal progress (default) |
+| `PROGRESS_NORMAL` | 1 | Normal progress (default, typically blue) |
 | `PROGRESS_ERROR` | 2 | Error state (typically red) |
-| `PROGRESS_INDETERMINATE` | 3 | Unknown progress (spinning) |
+| `PROGRESS_INDETERMINATE` | 3 | Unknown progress (spinning/pulsing) |
 | `PROGRESS_PAUSED` | 4 | Paused state (typically yellow) |
 
-### Progress Example
+### Command with Progress Bar
+
+```php
+<?php
+
+namespace App\Console\Commands;
+
+use Illuminate\Console\Command;
+use SoloTerm\Notify\Laravel\Facades\Notify;
+
+class ProcessRecords extends Command
+{
+    protected $signature = 'records:process';
+    protected $description = 'Process all pending records';
+
+    public function handle(): int
+    {
+        $records = $this->getPendingRecords();
+        $total = count($records);
+
+        // Show indeterminate progress while loading
+        if (Notify::supportsProgress()) {
+            Notify::progressIndeterminate();
+        }
+
+        foreach ($records as $index => $record) {
+            $percent = (int) (($index + 1) / $total * 100);
+
+            // Update tab/taskbar progress
+            Notify::progress($percent);
+
+            // Also show console progress
+            $this->output->write("\rProcessing: {$percent}%");
+
+            $this->processRecord($record);
+        }
+
+        $this->newLine();
+
+        // Clear progress and notify completion
+        Notify::progressClear();
+        Notify::success("Processed {$total} records");
+
+        return self::SUCCESS;
+    }
+}
+```
+
+### Progress with Error Handling
 
 ```php
 public function handle(): int
 {
-    $items = $this->getItems();
-    $total = count($items);
-
-    foreach ($items as $index => $item) {
-        $percent = (int) (($index + 1) / $total * 100);
-        Notify::progress($percent);
-
-        $this->processItem($item);
+    try {
+        $this->runMigrations();
+        Notify::progressClear();
+        Notify::success('Migrations complete');
+        return self::SUCCESS;
+    } catch (\Exception $e) {
+        // Show error state in progress bar
+        Notify::progressError(100);
+        Notify::error('Migration failed: ' . $e->getMessage());
+        return self::FAILURE;
     }
-
-    Notify::progressClear();
-    Notify::success('Processing complete');
-
-    return self::SUCCESS;
 }
 ```
 
 ### Terminal Support for Progress
 
-| Terminal | Support |
-|----------|---------|
-| Windows Terminal | Full |
-| iTerm2 3.6.6+ | Full |
-| Ghostty | Full |
-| Kitty | Limited |
-| WezTerm | No |
+Progress bars use the OSC 9;4 escape sequence. Supported terminals:
 
-Check support at runtime:
+| Terminal | Support | Notes |
+|----------|---------|-------|
+| **Windows Terminal** | Full | Native Windows taskbar integration |
+| **Ghostty** | Full | Version 1.2+ |
+| **iTerm2** | Full | Version 3.6.6+ |
+| **ConEmu** | Full | Windows |
+| **Mintty** | Full | Windows |
+| Kitty | No | Not supported |
+| WezTerm | No | Not supported |
+| Alacritty | No | Not supported |
+
+### Always Check Support
+
+Progress methods return `false` silently on unsupported terminals:
 
 ```php
+// Safe to call without checking - just returns false if unsupported
+Notify::progress(50);
+
+// But you may want to skip entirely for performance
 if (Notify::supportsProgress()) {
-    Notify::progress(50);
+    foreach ($items as $i => $item) {
+        Notify::progress(($i + 1) / count($items) * 100);
+        $this->process($item);
+    }
+    Notify::progressClear();
 }
 ```
 

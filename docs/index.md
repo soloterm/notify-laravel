@@ -77,6 +77,17 @@ Automatically notify when any Artisan command completes:
 ],
 ```
 
+### Progress Bars
+
+Display progress in the terminal tab/taskbar:
+
+```php
+Notify::progress(50);           // 50% complete
+Notify::progressError(100);     // Error state (red)
+Notify::progressIndeterminate(); // Unknown duration
+Notify::progressClear();        // Clear when done
+```
+
 ## How It Works
 
 This package wraps [soloterm/notify](/docs/notify), which sends notifications via terminal OSC escape sequences. No external dependencies or notification daemons - just escape sequences that modern terminals interpret as desktop notifications.

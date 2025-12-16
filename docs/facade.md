@@ -181,6 +181,18 @@ Notify::reset();
 | `setDefaultUrgency($urgency)` | Set default urgency |
 | `reset()` | Reset all configuration |
 
+### Progress Bar Methods
+
+| Method | Description |
+|--------|-------------|
+| `progress($percent, $state?)` | Show progress (0-100) with optional state |
+| `progressClear()` | Hide/clear progress indicator |
+| `progressError($percent?)` | Show error state (red) |
+| `progressPaused($percent)` | Show paused state (yellow) |
+| `progressIndeterminate()` | Show indeterminate/pulsing state |
+
+See [Advanced Features](advanced) for full progress bar documentation.
+
 ## Next Steps
 
 - [SendsNotifications Trait](trait) - Add notifications to your commands

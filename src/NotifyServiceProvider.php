@@ -7,6 +7,7 @@ namespace SoloTerm\Notify\Laravel;
 use Illuminate\Console\Events\CommandFinished;
 use Illuminate\Console\Scheduling\Event as ScheduleEvent;
 use Illuminate\Support\ServiceProvider;
+use SoloTerm\Notify\Laravel\Console\DiagnoseCommand;
 use SoloTerm\Notify\Laravel\Console\NotifyCommand;
 use SoloTerm\Notify\Laravel\Listeners\NotifyOnCommandFinished;
 use SoloTerm\Notify\Notify;
@@ -58,6 +59,7 @@ class NotifyServiceProvider extends ServiceProvider
 
         $this->commands([
             NotifyCommand::class,
+            DiagnoseCommand::class,
         ]);
 
         $this->publishes([
