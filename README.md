@@ -1,8 +1,8 @@
 # Notify for Laravel
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/soloterm/notify-laravel)](https://packagist.org/packages/soloterm/notify-laravel)
-[![Total Downloads](https://img.shields.io/packagist/dt/soloterm/notify-laravel)](https://packagist.org/packages/soloterm/notify-laravel)
-[![License](https://img.shields.io/packagist/l/soloterm/notify-laravel)](https://packagist.org/packages/soloterm/notify-laravel)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/soloterm/notify-laravel.svg)](https://packagist.org/packages/soloterm/notify-laravel)
+[![Total Downloads](https://img.shields.io/packagist/dt/soloterm/notify-laravel.svg)](https://packagist.org/packages/soloterm/notify-laravel)
+[![License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](LICENSE)
 
 Laravel integration for [soloterm/notify](https://github.com/soloterm/notify) - send desktop notifications from Artisan commands via terminal OSC escape sequences.
 
