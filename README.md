@@ -18,20 +18,20 @@ This package was built to support [Solo](https://github.com/soloterm/solo), your
 <td><img src="art/iterm-osc.png" alt="iTerm2 OSC notification" width="400"></td>
 </tr>
 <tr>
-<td><strong>Progress Bars (Ghostty)</strong></td>
-<td><strong>Progress Bars (iTerm2)</strong></td>
-</tr>
-<tr>
-<td><img src="art/ghostty-progress.png" alt="Ghostty progress bar" width="400"></td>
-<td><img src="art/iterm-progress.png" alt="iTerm2 progress bar" width="400"></td>
-</tr>
-<tr>
 <td><strong>macOS Fallback</strong></td>
 <td><strong>Fireworks (iTerm2)</strong></td>
 </tr>
 <tr>
 <td><img src="art/mac-fallback.png" alt="macOS fallback notification" width="400"></td>
 <td><img src="art/fireworks.png" alt="iTerm2 fireworks" width="400"></td>
+</tr>
+<tr>
+<td><strong>Progress Bars (Ghostty)</strong></td>
+<td><strong>Progress Bars (iTerm2)</strong></td>
+</tr>
+<tr>
+<td><img src="art/ghostty-progress.png" alt="Ghostty progress bar" width="400"></td>
+<td><img src="art/iterm-progress.png" alt="iTerm2 progress bar" width="400"></td>
 </tr>
 </table>
 
